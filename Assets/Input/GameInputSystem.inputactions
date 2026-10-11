@@ -1,13 +1,13 @@
 {
     "version": 1,
-    "name": "InputSystem",
+    "name": "GameInputSystem",
     "maps": [
         {
             "name": "Sail Controller",
             "id": "09e56411-fe70-448d-bba4-15f1a51f6bee",
             "actions": [
                 {
-                    "name": "OpenSail",
+                    "name": "RiseOrLowerSail",
                     "type": "Value",
                     "id": "611c6544-2606-4a75-847a-46e36023e902",
                     "expectedControlType": "Axis",
@@ -35,7 +35,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "OpenSail",
+                    "action": "RiseOrLowerSail",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -46,7 +46,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "OpenSail",
+                    "action": "RiseOrLowerSail",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -57,7 +57,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "OpenSail",
+                    "action": "RiseOrLowerSail",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
