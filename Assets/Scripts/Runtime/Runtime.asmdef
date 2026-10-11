@@ -1,7 +1,10 @@
 {
     "name": "Runtime",
     "rootNamespace": "NewAnceBoatSimulation",
-    "references": [],
+    "references": [
+        "GUID:e9c8e17848c01ba4cb86485a06170600",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
