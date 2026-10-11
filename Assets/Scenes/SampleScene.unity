@@ -2788,10 +2788,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  forwardLinearDrag: 2
-  forwardQuadraticDrag: 2
-  lateralLinearDrag: 20
-  lateralQuadraticDrag: 40
+  forwardLinearDrag: 20
+  forwardQuadraticDrag: 20
+  lateralLinearDrag: 200
+  lateralQuadraticDrag: 400
   centreOfEffort: {x: 0.5, y: 0}
   centreOfLateralResistance: {x: 0, y: 0}
   initialHeadingDegrees: 0
