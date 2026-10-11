@@ -77,7 +77,7 @@ namespace NewAnceBoatSimulation.Runtime.Boat
             return _currentSailArea;
         }
 
-        public float GetSailTurnDegree()
+        public float GetSailTurnDegrees()
         {
             return _currentSailTurnValue;
         }
