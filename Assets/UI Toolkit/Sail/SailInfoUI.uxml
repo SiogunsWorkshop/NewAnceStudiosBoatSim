@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="Screen" style="flex-grow: 1;">
+        <ui:VisualElement style="flex-grow: 6;"/>
+        <ui:VisualElement name="Labels" style="flex-grow: 1; flex-direction: column-reverse; font-size: 64px; top: auto; height: auto; align-items: flex-start; justify-content: center; padding-left: 100px;">
+            <ui:Label text="SAIL OPEN" name="SailOpenPercentage"/>
+            <ui:Label text="SAIL TURN" name="SailTurnDegree"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
