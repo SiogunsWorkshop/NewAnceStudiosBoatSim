@@ -17,7 +17,7 @@ namespace NewAnceBoatSimulation.Runtime.Boat
             }
 
             var newScale = sailTransformToScale.localScale;
-            newScale.y = Mathf.Clamp(sailOpenPercentage + scaleBump, 0f, 1f);
+            newScale.y = Mathf.Clamp(sailOpenPercentage + scaleBump, scaleBump, 1f + scaleBump);
             sailTransformToScale.localScale = newScale;
         }
 
