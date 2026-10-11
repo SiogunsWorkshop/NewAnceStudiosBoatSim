@@ -56,8 +56,8 @@ namespace NewAnceBoatSimulation.Runtime.General
 
             var direction = context.ReadValue<float>();
             var distance = direction * zoomSpeed; // No deltaTime for snappy scroll-wheel zooming
-            var newZ = Mathf.Clamp(transform.position.z + distance, zoomRange.x, zoomRange.y);
-            transform.position = new Vector3(transform.position.x, transform.position.y, newZ);
+            var newZ = Mathf.Clamp(transform.localPosition.z + distance, zoomRange.x, zoomRange.y);
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, newZ);
         }
     }
 }
