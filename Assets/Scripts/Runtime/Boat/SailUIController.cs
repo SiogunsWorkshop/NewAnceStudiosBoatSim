@@ -7,10 +7,10 @@ namespace NewAnceBoatSimulation.Runtime.Boat
     {
         [SerializeField] private PanelRenderer sailInfoPanelRenderer;
 
-        [SerializeField] private string sailOpenLabelName = "SailOpenPercentage";
+        [Space, SerializeField] private string sailOpenLabelName = "SailOpenPercentage";
         [SerializeField] private string sailTurnLabelName = "SailTurnDegree";
 
-        [SerializeField] private string sailTurnMessageFormat = "Sail Turn: {0}°";
+        [Space, SerializeField] private string sailTurnMessageFormat = "Sail Turn: {0}°";
         [SerializeField] private string sailOpenMessageFormat = "Sail Open: {0}%";
 
         private Label _sailOpenLabel;

@@ -12,11 +12,11 @@ namespace NewAnceBoatSimulation.Runtime.Boat
         [field: SerializeField] public UnityEvent<float> OnSailOpenPercentageChanged { get; private set; }
         [field: SerializeField] public UnityEvent<float> OnSailTurnDegreeChanged { get; private set; }
 
-        [SerializeField] private float sailTurnSpeed = 22.5f;
+        [Space, SerializeField] private float sailTurnSpeed = 22.5f;
         [SerializeField] private float initialSailTurnDegree;
         [SerializeField] private Vector2 sailTurnLimitDegrees = new(-45f, 45f);
 
-        [SerializeField] private float sailOpenSpeed = 1f;
+        [Space, SerializeField] private float sailOpenSpeed = 1f;
         [SerializeField] private float initialSailOpen;
         [SerializeField] private Vector2 sailOpenLimit = new(0f, 1f);
 
