@@ -452,8 +452,8 @@ MonoBehaviour:
   cameraHandle: {fileID: 1194490883}
   verticalRotationLimit: {x: 10, y: 45}
   rotationSpeed: 25
-  zoomRange: {x: 5, y: 20}
-  zoomSpeed: 1
+  zoomRange: {x: -20, y: -5}
+  zoomSpeed: -1
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0

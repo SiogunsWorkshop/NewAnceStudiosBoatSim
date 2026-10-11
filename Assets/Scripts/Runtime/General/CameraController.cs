@@ -16,6 +16,7 @@ namespace NewAnceBoatSimulation.Runtime.General
         [SerializeField] private float zoomSpeed = 1f;
 
         private GameInputSystem _inputSystem;
+        private Vector3 _pendingRotation;
 
         private void OnEnable()
         {
@@ -34,6 +35,19 @@ namespace NewAnceBoatSimulation.Runtime.General
             _inputSystem = InputManager.GetInputSystem();
         }
 
+        private void LateUpdate()
+        {
+            if (_pendingRotation == Vector3.zero) return;
+
+            var currentRotation = cameraHandle.localEulerAngles;
+            currentRotation.x = Mathf.Clamp(currentRotation.x + _pendingRotation.x, verticalRotationLimit.x,
+                verticalRotationLimit.y);
+            currentRotation.y += _pendingRotation.y;
+            cameraHandle.localEulerAngles = currentRotation;
+
+            _pendingRotation = Vector3.zero;
+        }
+
         private void Reset()
         {
             cameraHandle = transform.parent;
@@ -45,9 +59,7 @@ namespace NewAnceBoatSimulation.Runtime.General
 
             var input = context.ReadValue<Vector2>();
             var inputRotation = new Vector3(-input.y, input.x, 0f) * rotationSpeed * Time.deltaTime;
-            var newRotation = cameraHandle.localEulerAngles + inputRotation;
-            newRotation.x = Mathf.Clamp(newRotation.x, verticalRotationLimit.x, verticalRotationLimit.y);
-            cameraHandle.localEulerAngles = newRotation;
+            _pendingRotation += inputRotation;
         }
 
         public void OnZoomCamera(InputAction.CallbackContext context)
