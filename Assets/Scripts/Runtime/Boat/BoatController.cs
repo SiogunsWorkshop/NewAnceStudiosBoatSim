@@ -5,6 +5,8 @@ namespace NewAnceBoatSimulation.Runtime.Boat
 {
     public class BoatController : MonoBehaviour
     {
+        public Vector2 CurrentVelocity { get; private set; }
+
         [SerializeField] private WindController wind;
         [SerializeField] private SailController sail;
 
@@ -39,7 +41,6 @@ namespace NewAnceBoatSimulation.Runtime.Boat
         [Header("Model")] [SerializeField] private float initialHeadingDegrees;
         [SerializeField] private float maxDeltaTime = 0.05f;
 
-        private Vector2 _currentVelocity;
         private float _headingRadians;
         private float _yawRate;
 
@@ -84,7 +85,7 @@ namespace NewAnceBoatSimulation.Runtime.Boat
             var sailForce = CalculateSailForce(forward);
             var waterForce = CalculateWaterForce(forward, right);
 
-            _currentVelocity += (sailForce + waterForce) / massInKilograms * deltaTime;
+            CurrentVelocity += (sailForce + waterForce) / massInKilograms * deltaTime;
 
             var sailTorque = Cross(LocalToWorld(centreOfEffort, forward, right), sailForce);
             var lateralWaterForce = Vector2.Dot(waterForce, right) * right;
@@ -94,7 +95,7 @@ namespace NewAnceBoatSimulation.Runtime.Boat
             _yawRate += torque / yawInertia * deltaTime;
             _headingRadians += _yawRate * deltaTime;
 
-            transform.position += new Vector3(_currentVelocity.x, 0f, _currentVelocity.y) * deltaTime;
+            transform.position += new Vector3(CurrentVelocity.x, 0f, CurrentVelocity.y) * deltaTime;
             transform.rotation = Quaternion.Euler(0f, 90f - _headingRadians * Mathf.Rad2Deg, 0f);
 
             return;
@@ -104,7 +105,7 @@ namespace NewAnceBoatSimulation.Runtime.Boat
 
         private Vector2 CalculateSailForce(Vector2 forward)
         {
-            var apparentWind = wind.GetApparentWindVector(_currentVelocity);
+            var apparentWind = wind.GetApparentWindVector(CurrentVelocity);
             var apparentWindSpeedSqr = apparentWind.sqrMagnitude;
             if (apparentWindSpeedSqr < Mathf.Epsilon)
                 return Vector2.zero;
@@ -130,8 +131,8 @@ namespace NewAnceBoatSimulation.Runtime.Boat
 
         private Vector2 CalculateWaterForce(Vector2 forward, Vector2 right)
         {
-            var forwardSpeed = Vector2.Dot(_currentVelocity, forward);
-            var lateralSpeed = Vector2.Dot(_currentVelocity, right);
+            var forwardSpeed = Vector2.Dot(CurrentVelocity, forward);
+            var lateralSpeed = Vector2.Dot(CurrentVelocity, right);
 
             var forwardForce = -(forwardLinearDrag * forwardSpeed
                                  + forwardQuadraticDrag * forwardSpeed * Mathf.Abs(forwardSpeed));
