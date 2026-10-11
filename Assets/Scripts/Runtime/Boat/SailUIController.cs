@@ -31,28 +31,38 @@ namespace NewAnceBoatSimulation.Runtime.Boat
             sailInfoPanelRenderer = GetComponent<PanelRenderer>();
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        public void UpdateSailRotationInfo(float sailTurnDegree)
+        public void UpdateSailRotationInfo(float sailTurnDegree) // Wrapper for inspector UnityEvents
         {
-            if (_sailTurnLabel == null)
-            {
-                Debug.LogWarning(Messages.Warnings.SailTurnLabelNotFound);
-                return;
-            }
-
-            _sailTurnLabel.text = string.Format(sailTurnMessageFormat, sailTurnDegree);
+            TryUpdateSailRotationInfo(sailTurnDegree);
         }
 
         // ReSharper disable once MemberCanBePrivate.Global
-        public void UpdateSailOpenInfo(float sailOpenPercentage)
+        public bool TryUpdateSailRotationInfo(float sailTurnDegree)
+        {
+            if (_sailTurnLabel == null)
+            {
+                return false;
+            }
+
+            _sailTurnLabel.text = string.Format(sailTurnMessageFormat, sailTurnDegree);
+            return true;
+        }
+
+        public void UpdateSailOpenInfo(float sailOpenPercentage) // Wrapper for inspector UnityEvents
+        {
+            TryUpdateSailOpenInfo(sailOpenPercentage);
+        }
+
+        // ReSharper disable once MemberCanBePrivate.Global
+        public bool TryUpdateSailOpenInfo(float sailOpenPercentage)
         {
             if (_sailOpenLabel == null)
             {
-                Debug.LogWarning(Messages.Warnings.SailOpenLabelNotFound);
-                return;
+                return false;
             }
 
             _sailOpenLabel.text = string.Format(sailOpenMessageFormat, sailOpenPercentage);
+            return true;
         }
 
         private void OnUIReload(PanelRenderer panelRenderer, VisualElement rootElement, int version)
@@ -63,15 +73,6 @@ namespace NewAnceBoatSimulation.Runtime.Boat
             if (version != 1) return;
             UpdateSailOpenInfo(0f);
             UpdateSailRotationInfo(0f);
-        }
-
-        private static class Messages
-        {
-            public static class Warnings
-            {
-                public const string SailOpenLabelNotFound = "Sail Open Label not found in the UI.";
-                public const string SailTurnLabelNotFound = "Sail Turn Label not found in the UI.";
-            }
         }
     }
 }

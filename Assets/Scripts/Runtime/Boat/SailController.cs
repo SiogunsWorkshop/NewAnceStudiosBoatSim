@@ -62,10 +62,14 @@ namespace NewAnceBoatSimulation.Runtime.Boat
                 sailTurnLimitDegrees = new Vector2(sailTurnLimitDegrees.y, sailTurnLimitDegrees.x);
             }
 
+            SetSailTurnValue(initialSailTurnDegree);
+
             if (sailAreaInSquareMeters <= MinSailArea)
             {
                 sailAreaInSquareMeters = MinSailArea;
             }
+
+            SetSailOpenValue(initialSailOpenArea);
         }
 
         public float GetActiveSailAreaInSquareMeters()
@@ -130,11 +134,13 @@ namespace NewAnceBoatSimulation.Runtime.Boat
         private void SetSailTurnValue(float value)
         {
             _currentSailTurnValue = Mathf.Clamp(value, sailTurnLimitDegrees.x, sailTurnLimitDegrees.y);
+            OnSailTurnDegreeChanged.Invoke(_currentSailTurnValue);
         }
 
         private void SetSailOpenValue(float value)
         {
             _currentSailArea = Mathf.Clamp(value, 0, sailAreaInSquareMeters);
+            OnSailOpenPercentageChanged.Invoke(_currentSailArea / sailAreaInSquareMeters);
         }
 
         private IEnumerator HandleRiseOrLowerSailCoroutine()
@@ -143,7 +149,6 @@ namespace NewAnceBoatSimulation.Runtime.Boat
             {
                 var newSailOpenValue = _currentSailArea + (_sailOpenDirection * sailOpenSpeed * Time.deltaTime);
                 SetSailOpenValue(newSailOpenValue);
-                OnSailOpenPercentageChanged.Invoke(_currentSailArea / sailAreaInSquareMeters);
                 yield return null;
             }
         }
@@ -154,7 +159,6 @@ namespace NewAnceBoatSimulation.Runtime.Boat
             {
                 var newSailTurnValue = _currentSailTurnValue + (_sailTurnDirection * sailTurnSpeed * Time.deltaTime);
                 SetSailTurnValue(newSailTurnValue);
-                OnSailTurnDegreeChanged.Invoke(_currentSailTurnValue);
                 yield return null;
             }
         }
