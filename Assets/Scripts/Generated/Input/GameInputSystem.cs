@@ -183,6 +183,78 @@ namespace NewAnceBoatSimulation.Generated.Input
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Camera Controller"",
+            ""id"": ""b5015e74-caa9-4a39-85aa-b6a3b71a24a8"",
+            ""actions"": [
+                {
+                    ""name"": ""MoveCamera"",
+                    ""type"": ""Value"",
+                    ""id"": ""d7814ce6-ad06-4a60-b8a3-4d9b38e15020"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""ZoomCamera"",
+                    ""type"": ""Value"",
+                    ""id"": ""02a33e05-bbac-4c87-84ad-1a61ce3e874b"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true,
+                    ""priority"": 0
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""5cbc6067-ae62-452b-a578-3828284505ad"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""71bbfb03-1c09-49d7-805b-eb2db5295f1f"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ZoomCamera"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""380b723c-0afe-4fae-b00f-a784f1a03912"",
+                    ""path"": ""<Mouse>/scroll/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ZoomCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""b3fb68fc-d187-4302-bc14-7e7457b85e4e"",
+                    ""path"": ""<Mouse>/scroll/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ZoomCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -252,11 +324,16 @@ namespace NewAnceBoatSimulation.Generated.Input
             m_SailController = asset.FindActionMap("Sail Controller", throwIfNotFound: true);
             m_SailController_RiseOrLowerSail = m_SailController.FindAction("RiseOrLowerSail", throwIfNotFound: true);
             m_SailController_TurnSail = m_SailController.FindAction("TurnSail", throwIfNotFound: true);
+            // Camera Controller
+            m_CameraController = asset.FindActionMap("Camera Controller", throwIfNotFound: true);
+            m_CameraController_MoveCamera = m_CameraController.FindAction("MoveCamera", throwIfNotFound: true);
+            m_CameraController_ZoomCamera = m_CameraController.FindAction("ZoomCamera", throwIfNotFound: true);
         }
 
         ~@GameInputSystem()
         {
             UnityEngine.Debug.Assert(!m_SailController.enabled, "This will cause a leak and performance issues, GameInputSystem.SailController.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_CameraController.enabled, "This will cause a leak and performance issues, GameInputSystem.CameraController.Disable() has not been called.");
         }
 
         /// <summary>
@@ -435,6 +512,113 @@ namespace NewAnceBoatSimulation.Generated.Input
         /// Provides a new <see cref="SailControllerActions" /> instance referencing this action map.
         /// </summary>
         public SailControllerActions @SailController => new SailControllerActions(this);
+
+        // Camera Controller
+        private readonly InputActionMap m_CameraController;
+        private List<ICameraControllerActions> m_CameraControllerActionsCallbackInterfaces = new List<ICameraControllerActions>();
+        private readonly InputAction m_CameraController_MoveCamera;
+        private readonly InputAction m_CameraController_ZoomCamera;
+        /// <summary>
+        /// Provides access to input actions defined in input action map "Camera Controller".
+        /// </summary>
+        public struct CameraControllerActions
+        {
+            private @GameInputSystem m_Wrapper;
+
+            /// <summary>
+            /// Construct a new instance of the input action map wrapper class.
+            /// </summary>
+            public CameraControllerActions(@GameInputSystem wrapper) { m_Wrapper = wrapper; }
+            /// <summary>
+            /// Provides access to the underlying input action "CameraController/MoveCamera".
+            /// </summary>
+            public InputAction @MoveCamera => m_Wrapper.m_CameraController_MoveCamera;
+            /// <summary>
+            /// Provides access to the underlying input action "CameraController/ZoomCamera".
+            /// </summary>
+            public InputAction @ZoomCamera => m_Wrapper.m_CameraController_ZoomCamera;
+            /// <summary>
+            /// Provides access to the underlying input action map instance.
+            /// </summary>
+            public InputActionMap Get() { return m_Wrapper.m_CameraController; }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+            public void Enable() { Get().Enable(); }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+            public void Disable() { Get().Disable(); }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+            public bool enabled => Get().enabled;
+            /// <summary>
+            /// Implicitly converts an <see ref="CameraControllerActions" /> to an <see ref="InputActionMap" /> instance.
+            /// </summary>
+            public static implicit operator InputActionMap(CameraControllerActions set) { return set.Get(); }
+            /// <summary>
+            /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+            /// </summary>
+            /// <param name="instance">Callback instance.</param>
+            /// <remarks>
+            /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+            /// </remarks>
+            /// <seealso cref="CameraControllerActions" />
+            public void AddCallbacks(ICameraControllerActions instance)
+            {
+                if (instance == null || m_Wrapper.m_CameraControllerActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_CameraControllerActionsCallbackInterfaces.Add(instance);
+                @MoveCamera.started += instance.OnMoveCamera;
+                @MoveCamera.performed += instance.OnMoveCamera;
+                @MoveCamera.canceled += instance.OnMoveCamera;
+                @ZoomCamera.started += instance.OnZoomCamera;
+                @ZoomCamera.performed += instance.OnZoomCamera;
+                @ZoomCamera.canceled += instance.OnZoomCamera;
+            }
+
+            /// <summary>
+            /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+            /// </summary>
+            /// <remarks>
+            /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+            /// </remarks>
+            /// <seealso cref="CameraControllerActions" />
+            private void UnregisterCallbacks(ICameraControllerActions instance)
+            {
+                @MoveCamera.started -= instance.OnMoveCamera;
+                @MoveCamera.performed -= instance.OnMoveCamera;
+                @MoveCamera.canceled -= instance.OnMoveCamera;
+                @ZoomCamera.started -= instance.OnZoomCamera;
+                @ZoomCamera.performed -= instance.OnZoomCamera;
+                @ZoomCamera.canceled -= instance.OnZoomCamera;
+            }
+
+            /// <summary>
+            /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="CameraControllerActions.UnregisterCallbacks(ICameraControllerActions)" />.
+            /// </summary>
+            /// <seealso cref="CameraControllerActions.UnregisterCallbacks(ICameraControllerActions)" />
+            public void RemoveCallbacks(ICameraControllerActions instance)
+            {
+                if (m_Wrapper.m_CameraControllerActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            /// <summary>
+            /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+            /// </summary>
+            /// <remarks>
+            /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+            /// </remarks>
+            /// <seealso cref="CameraControllerActions.AddCallbacks(ICameraControllerActions)" />
+            /// <seealso cref="CameraControllerActions.RemoveCallbacks(ICameraControllerActions)" />
+            /// <seealso cref="CameraControllerActions.UnregisterCallbacks(ICameraControllerActions)" />
+            public void SetCallbacks(ICameraControllerActions instance)
+            {
+                foreach (var item in m_Wrapper.m_CameraControllerActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_CameraControllerActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        /// <summary>
+        /// Provides a new <see cref="CameraControllerActions" /> instance referencing this action map.
+        /// </summary>
+        public CameraControllerActions @CameraController => new CameraControllerActions(this);
         private int m_KeyboardMouseSchemeIndex = -1;
         /// <summary>
         /// Provides access to the input control scheme.
@@ -521,6 +705,28 @@ namespace NewAnceBoatSimulation.Generated.Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnTurnSail(InputAction.CallbackContext context);
+        }
+        /// <summary>
+        /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Camera Controller" which allows adding and removing callbacks.
+        /// </summary>
+        /// <seealso cref="CameraControllerActions.AddCallbacks(ICameraControllerActions)" />
+        /// <seealso cref="CameraControllerActions.RemoveCallbacks(ICameraControllerActions)" />
+        public interface ICameraControllerActions
+        {
+            /// <summary>
+            /// Method invoked when associated input action "MoveCamera" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnMoveCamera(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "ZoomCamera" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnZoomCamera(InputAction.CallbackContext context);
         }
     }
 }

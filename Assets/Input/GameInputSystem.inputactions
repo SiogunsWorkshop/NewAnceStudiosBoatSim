@@ -95,6 +95,78 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "Camera Controller",
+            "id": "b5015e74-caa9-4a39-85aa-b6a3b71a24a8",
+            "actions": [
+                {
+                    "name": "MoveCamera",
+                    "type": "Value",
+                    "id": "d7814ce6-ad06-4a60-b8a3-4d9b38e15020",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true,
+                    "priority": 0
+                },
+                {
+                    "name": "ZoomCamera",
+                    "type": "Value",
+                    "id": "02a33e05-bbac-4c87-84ad-1a61ce3e874b",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true,
+                    "priority": 0
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5cbc6067-ae62-452b-a578-3828284505ad",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "71bbfb03-1c09-49d7-805b-eb2db5295f1f",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ZoomCamera",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "380b723c-0afe-4fae-b00f-a784f1a03912",
+                    "path": "<Mouse>/scroll/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ZoomCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "b3fb68fc-d187-4302-bc14-7e7457b85e4e",
+                    "path": "<Mouse>/scroll/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ZoomCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
         }
     ],
     "controlSchemes": [
