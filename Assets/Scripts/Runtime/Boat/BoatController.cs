@@ -27,7 +27,7 @@ namespace NewAnceBoatSimulation.Runtime.Boat
             }
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (!AreComponentsValid())
             {
@@ -35,12 +35,6 @@ namespace NewAnceBoatSimulation.Runtime.Boat
                 enabled = false;
                 return;
             }
-
-            var apparentWind = wind.GetApparentWindVector(_currentVelocity);
-            var sailEffectiveArea = sail.GetActiveSailAreaInSquareMeters();
-            var worldSpaceSailDirection =
-                transform.forward * Mathf.Cos(sail.transform.localEulerAngles.y * Mathf.Deg2Rad) +
-                transform.right * Mathf.Sin(sail.transform.localEulerAngles.y * Mathf.Deg2Rad);
 
             return;
 

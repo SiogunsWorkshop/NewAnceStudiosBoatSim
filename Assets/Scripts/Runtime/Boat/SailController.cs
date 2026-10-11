@@ -74,7 +74,12 @@ namespace NewAnceBoatSimulation.Runtime.Boat
 
         public float GetActiveSailAreaInSquareMeters()
         {
-            return _currentSailArea * sailAreaInSquareMeters;
+            return _currentSailArea;
+        }
+
+        public float GetSailTurnDegree()
+        {
+            return _currentSailTurnValue;
         }
 
         public void OnRiseOrLowerSail(InputAction.CallbackContext context)
