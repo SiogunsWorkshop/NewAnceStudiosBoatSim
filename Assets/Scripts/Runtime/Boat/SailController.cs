@@ -17,8 +17,8 @@ namespace NewAnceBoatSimulation.Runtime.Boat
         [SerializeField] private Vector2 sailTurnLimitDegrees = new(-45f, 45f);
 
         [Space, SerializeField] private float sailOpenSpeed = 1f;
-        [SerializeField] private float initialSailOpen;
-        [SerializeField] private Vector2 sailOpenLimit = new(0f, 1f);
+        [SerializeField] private float initialSailOpenArea;
+        [SerializeField] private float sailAreaInSquareMeters = 10f;
 
         private GameInputSystem _inputSystem;
 
@@ -27,8 +27,10 @@ namespace NewAnceBoatSimulation.Runtime.Boat
         private float _sailTurnDirection;
 
         private Coroutine _sailOpenCoroutine;
-        private float _currentSailOpenValue;
+        private float _currentSailArea;
         private float _sailOpenDirection;
+
+        private const float MinSailArea = 1f;
 
         private void OnEnable()
         {
@@ -60,10 +62,15 @@ namespace NewAnceBoatSimulation.Runtime.Boat
                 sailTurnLimitDegrees = new Vector2(sailTurnLimitDegrees.y, sailTurnLimitDegrees.x);
             }
 
-            if (sailOpenLimit.x > sailOpenLimit.y)
+            if (sailAreaInSquareMeters <= MinSailArea)
             {
-                sailOpenLimit = new Vector2(sailOpenLimit.y, sailOpenLimit.x);
+                sailAreaInSquareMeters = MinSailArea;
             }
+        }
+
+        public float GetActiveSailAreaInSquareMeters()
+        {
+            return _currentSailArea * sailAreaInSquareMeters;
         }
 
         public void OnRiseOrLowerSail(InputAction.CallbackContext context)
@@ -127,16 +134,16 @@ namespace NewAnceBoatSimulation.Runtime.Boat
 
         private void SetSailOpenValue(float value)
         {
-            _currentSailOpenValue = Mathf.Clamp(value, sailOpenLimit.x, sailOpenLimit.y);
+            _currentSailArea = Mathf.Clamp(value, 0, sailAreaInSquareMeters);
         }
 
         private IEnumerator HandleRiseOrLowerSailCoroutine()
         {
             while (this)
             {
-                var newSailOpenValue = _currentSailOpenValue + (_sailOpenDirection * sailOpenSpeed * Time.deltaTime);
+                var newSailOpenValue = _currentSailArea + (_sailOpenDirection * sailOpenSpeed * Time.deltaTime);
                 SetSailOpenValue(newSailOpenValue);
-                OnSailOpenPercentageChanged.Invoke(_currentSailOpenValue / sailOpenLimit.y);
+                OnSailOpenPercentageChanged.Invoke(_currentSailArea / sailAreaInSquareMeters);
                 yield return null;
             }
         }
