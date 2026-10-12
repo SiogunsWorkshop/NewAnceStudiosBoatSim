@@ -611,7 +611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5618778c110181549b6cdc7ee0dcd289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Runtime::NewAnceBoatSimulation.Runtime.Wind.WindController
-  windSpeed: 20
+  windSpeed: 10
   windDirectionInDegrees: 30
 --- !u!4 &489928464
 Transform:
