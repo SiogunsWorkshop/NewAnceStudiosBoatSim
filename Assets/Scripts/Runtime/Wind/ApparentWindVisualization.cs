@@ -9,6 +9,10 @@ namespace NewAnceBoatSimulation.Runtime.Wind
         [SerializeField] private WindController windController;
         [SerializeField] private BoatController boatController;
         [SerializeField] private Transform windArrowAnchor;
+        [SerializeField] private Transform windArrowArmAnchor;
+
+        [SerializeField]
+        private AnimationCurve arrowArmScaleToWindSpeedCurve = AnimationCurve.Linear(0, 0.5f, 10, 1.5f);
 
         private void OnEnable()
         {
@@ -25,11 +29,25 @@ namespace NewAnceBoatSimulation.Runtime.Wind
                 enabled = false;
                 return;
             }
+
+            if (!windArrowAnchor)
+            {
+                Debug.LogError("WindArrowAnchor is not assigned in ApparentWindVisualization.");
+                enabled = false;
+                return;
+            }
+
+            if (!windArrowArmAnchor)
+            {
+                Debug.LogError("WindArrowArmAnchor is not assigned in ApparentWindVisualization.");
+                enabled = false;
+                return;
+            }
         }
 
         private void Update()
         {
-            AlignWindArrow();
+            UpdateWindArrow();
         }
 
         private void Reset()
@@ -38,16 +56,32 @@ namespace NewAnceBoatSimulation.Runtime.Wind
             boatController = FindAnyObjectByType<BoatController>();
         }
 
-        private void AlignWindArrow()
+        private void UpdateWindArrow()
         {
             if (!windController || !windArrowAnchor || !boatController) return;
 
             var windVector = windController.GetApparentWindVector(boatController.CurrentVelocity);
-            var direction = windVector.normalized;
+            AlignWindArrow(windVector.normalized);
+            AdjustArrowArmLength(windVector.magnitude);
+        }
+
+        private void AlignWindArrow(Vector2 apparentWindDirection)
+        {
+            if (!windController || !windArrowAnchor || !boatController) return;
 
             var newRotation = windArrowAnchor.rotation;
-            newRotation.eulerAngles = new Vector3(0, Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg, 0);
+            newRotation.eulerAngles = new Vector3(0,
+                Mathf.Atan2(apparentWindDirection.x, apparentWindDirection.y) * Mathf.Rad2Deg, 0);
             windArrowAnchor.rotation = newRotation;
+        }
+
+        private void AdjustArrowArmLength(float apparentWindSpeed)
+        {
+            if (!windArrowArmAnchor) return;
+
+            var newScale = arrowArmScaleToWindSpeedCurve.Evaluate(apparentWindSpeed);
+            windArrowArmAnchor.localScale =
+                new Vector3(windArrowArmAnchor.localScale.x, windArrowArmAnchor.localScale.y, newScale);
         }
     }
 }

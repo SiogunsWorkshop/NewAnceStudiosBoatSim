@@ -10,17 +10,41 @@ namespace NewAnceBoatSimulation.Runtime.General
 
         private void OnEnable()
         {
-            if (!targetTransform)
-            {
-                Debug.LogError("Target Transform is not assigned in MatchPosition.");
-                enabled = false;
-                return;
-            }
+            if (EnsureTargetIsValid()) return;
+            enabled = false;
         }
 
         private void LateUpdate()
         {
+            MatchPositionNow();
+        }
+
+        private bool EnsureTargetIsValid()
+        {
+            if (targetTransform) return true;
+
+            Debug.LogError("Target Transform is not assigned in MatchPosition.");
+            return false;
+        }
+
+        [ContextMenu("Match Position Now")]
+        private void MatchPositionNow()
+        {
+            if (!EnsureTargetIsValid())
+            {
+                enabled = false;
+                return;
+            }
+
             transform.position = targetTransform.position + offset;
+
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                UnityEditor.EditorUtility.SetDirty(transform);
+                UnityEditor.Undo.RecordObject(transform, "Match Position Now");
+            }
+#endif
         }
     }
 }
