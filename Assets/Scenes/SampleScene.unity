@@ -1410,6 +1410,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1194490883}
+  - component: {fileID: 1194490884}
   m_Layer: 0
   m_Name: CameraHandle
   m_TagString: Untagged
@@ -1431,8 +1432,22 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 330585546}
-  m_Father: {fileID: 1840034416}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 20, y: 39.15, z: 0}
+--- !u!114 &1194490884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194490882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53dfcbc591585214494eeba6903bd600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Runtime::NewAnceBoatSimulation.Runtime.General.MatchPosition
+  targetTransform: {fileID: 1840034416}
+  offset: {x: 0, y: 1, z: 0}
 --- !u!1 &1261298031
 GameObject:
   m_ObjectHideFlags: 0
@@ -2673,7 +2688,6 @@ Transform:
   m_Children:
   - {fileID: 1285526550}
   - {fileID: 513988129}
-  - {fileID: 1194490883}
   - {fileID: 489928464}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3157,4 +3171,5 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 1947057546}
   - {fileID: 1672318881}
+  - {fileID: 1194490883}
   - {fileID: 1840034416}
