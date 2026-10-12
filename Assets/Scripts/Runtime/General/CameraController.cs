@@ -58,7 +58,7 @@ namespace NewAnceBoatSimulation.Runtime.General
             if (!context.performed) return;
 
             var input = context.ReadValue<Vector2>();
-            var inputRotation = new Vector3(-input.y, input.x, 0f) * rotationSpeed * Time.deltaTime;
+            var inputRotation = new Vector3(-input.y, input.x, 0f) * rotationSpeed;
             _pendingRotation += inputRotation;
         }
 

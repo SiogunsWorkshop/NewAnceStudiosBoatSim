@@ -451,7 +451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Runtime::NewAnceBoatSimulation.Runtime.General.CameraController
   cameraHandle: {fileID: 1194490883}
   verticalRotationLimit: {x: 10, y: 45}
-  rotationSpeed: 25
+  rotationSpeed: 0.05
   zoomRange: {x: -20, y: -5}
   zoomSpeed: -1
 --- !u!1 &410087039
